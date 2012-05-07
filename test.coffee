@@ -1,6 +1,6 @@
 #!/usr/local/bin/coffee
 
-lib = require('./js-properties.js')
+lib = require('./js-properties.pack.js')
 
 console.log lib.Properties
 
@@ -21,11 +21,3 @@ console.log test.root.flag
 console.log test.to_JSON()
 console.log test.root.to_JSON()
 
-# OUTPUT:
-#
-# [Function: Properties]
-# before set
-# before get
-# 1
-# { root: { flag: 1 } }
-# { flag: 1 }

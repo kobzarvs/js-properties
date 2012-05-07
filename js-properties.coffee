@@ -40,8 +40,7 @@ class exports.Properties
                 if p_list?
                     p_list[ k ] = @create_context()
                     @properties.call( p_list[ k ], v )
-                    unless p_list[ k ]._prop
-                        p_list[ k ] = null
+                    unless p_list[ k ]._prop then p_list[ k ] = null
 
     to_JSON: ->
         return null unless @_prop?
