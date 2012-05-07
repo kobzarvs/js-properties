@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/local/bin/coffee
 
 class exports.Properties
     HOOK_FUNCTIONS = [ 'get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'  ]
