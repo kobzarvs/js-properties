@@ -20,9 +20,9 @@
 
     tree = test.to_JSON
 
-> { property_name_1:
->   { property_name_1_1: 'test value', 
->     property_name_1_2: null
->   }
-> }
+    > { property_name_1:
+    >   { property_name_1_1: 'test value', 
+    >     property_name_1_2: null
+    >   }
+    > }
 
