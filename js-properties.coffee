@@ -28,12 +28,12 @@ class Properties
         unless desc.set? then desc.set = (val) => @_prop[pname] = val
 
         description = {}
-        description.get = ->
+        description.get = =>
             desc.before_get?.bind(this)()
             result = desc.get.bind(this)()
             desc.after_get?.bind(this)()
             result
-        description.set = (val) ->
+        description.set = (val) =>
             desc.before_set?.bind(this, val)()
             desc.set.bind(this, val)()
             desc.after_set?.bind(this, val)()
