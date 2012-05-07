@@ -51,21 +51,32 @@ class Properties
         @_prop
 
     create_context: ->
-        context = 1
         new class extends Properties
-            constructor: ->
-                @context = context++
 
     properties: (plist) ->
         for k, v of plist
             if typeof v is 'object'
                 properties_list = @property k, v
-                properties_list[ k ] = @create_context()
-                @properties.bind( properties_list[ k ], v )()
-                unless properties_list[ k ]._prop
-                    properties_list[ k ] = null
+                if properties_list?
+                    properties_list[ k ] = @create_context()
+                    @properties.bind( properties_list[ k ], v )()
+                    unless properties_list[ k ]._prop
+                        properties_list[ k ] = null
 
+    counter = 0
 
+    properties_toJSON: (obj=this) ->
+        return null unless obj? and typeof obj is 'object' and obj._prop?
+        console.log obj._prop
+        json = {}
+        for pname, pvalue of obj._prop
+            #console.log pname
+            json[pname] = if typeof pvalue is 'object' and pvalue?
+                @properties_toJSON(pvalue) #.bind( pvalue )()
+            else
+                pvalue
+        return json
+            
 #
 #  Test Class
 #
@@ -73,6 +84,7 @@ class C1 extends Properties
 
     constructor: ->
         @context = "ROOT CONTEXT"
+        @root =
         @properties
             mode:
                 before_get: ->
@@ -95,16 +107,15 @@ class C1 extends Properties
                         #@flag
                     after_get: ->
                         #console.log "AFTER GET flag"
-
 #
 #  Test
 #
 test = new C1
 
 test.mode.video = 111
-#onsole.log test.mode.video
-test.mode.flag = 222
-console.log test.mode.flag
-test.mode.flag = 222
-console.log test.mode.flag
+console.log test.properties_toJSON(null)
+#test.mode.flag = 222
+#console.log test.mode.flag
+#test.mode.flag = 222
+#console.log test.mode.flag
 
