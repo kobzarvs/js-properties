@@ -1,4 +1,4 @@
-{% highlight coffeescript %}
+```coffee
 class UserClass extends Properties
   constructor: (args...)->
     @properties
@@ -20,8 +20,7 @@ test.property_name_1.property_name_1_1 = 'test value'
 console.log test.property_name_1.property_name_1_1
 
 tree = test.to_JSON
-{% endhighlight %}
-
+```
     > { property_name_1:
     >   { property_name_1_1: 'test value', 
     >     property_name_1_2: null
