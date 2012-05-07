@@ -1,29 +1,31 @@
 ```coffee
-class UserClass extends Properties
-  constructor: (args...)->
+lib = require('./js-properties.js')
+
+console.log lib.Properties
+
+class TestClass extends lib.Properties
+  constructor: ->
     @properties
-      property_name_1:
-        [get/set/before_get/before_set/after_get/after_set] =>
-          ...
-        property_name_1_1:
-          get: =>
-            ...
-          set: =>
-            ...
-          [before_get/before_set/after_get/after_set] =>
-            ...
-        property_name_1_2:
-        ...
+      root:
+        flag:
+          # [get | set | before_get | before_set | after_get | after_set]: =>
+          before_get: =>
+            console.log 'before get'
+          before_set: =>
+            console.log 'before set'
 
-test = new UserClass
-test.property_name_1.property_name_1_1 = 'test value'
-console.log test.property_name_1.property_name_1_1
+test = new TestClass
 
-tree = test.to_JSON
+test.root.flag = 1
+console.log test.root.flag
+console.log test.to_JSON()
+console.log test.root.to_JSON()
 ```
-    > { property_name_1:
-    >   { property_name_1_1: 'test value', 
-    >     property_name_1_2: null
-    >   }
-    > }
+  OUTPUT:
 
+  [Function: Properties]
+  before set
+  before get
+  1
+  { root: { flag: 1 } }
+  { flag: 1 }
