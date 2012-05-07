@@ -19,6 +19,14 @@
 #  test.property_name_1.property_name_1_1 = 'test value'
 #  console.log test.property_name_1.property_name_1_1
 #
+#  tree = test.to_JSON
+#
+#  > { property_name_1:
+#  >   { property_name_1_1: 'test value', 
+#  >     property_name_1_2: null
+#  >   }
+#  > }
+#
 
 class Properties
     HOOK_FUNCTIONS = [ 'get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'  ]
@@ -56,25 +64,21 @@ class Properties
     properties: (plist) ->
         for k, v of plist
             if typeof v is 'object'
-                properties_list = @property k, v
-                if properties_list?
-                    properties_list[ k ] = @create_context()
-                    @properties.bind( properties_list[ k ], v )()
-                    unless properties_list[ k ]._prop
-                        properties_list[ k ] = null
+                p_list = @property k, v
+                if p_list?
+                    p_list[ k ] = @create_context()
+                    @properties.bind( p_list[ k ], v )()
+                    unless p_list[ k ]._prop
+                        p_list[ k ] = null
 
-    counter = 0
-
-    properties_toJSON: (obj=this) ->
-        return null unless obj? and typeof obj is 'object' and obj._prop?
-        console.log obj._prop
+    to_JSON: ->
+        return null unless @_prop?
         json = {}
-        for pname, pvalue of obj._prop
-            #console.log pname
-            json[pname] = if typeof pvalue is 'object' and pvalue?
-                @properties_toJSON(pvalue) #.bind( pvalue )()
+        for name, value of @_prop
+            json[name] = if typeof value is 'object'
+                @to_JSON.bind( value )()
             else
-                pvalue
+                value
         return json
             
 #
@@ -113,7 +117,7 @@ class C1 extends Properties
 test = new C1
 
 test.mode.video = 111
-console.log test.properties_toJSON(null)
+console.log test.to_JSON(null)
 #test.mode.flag = 222
 #console.log test.mode.flag
 #test.mode.flag = 222
