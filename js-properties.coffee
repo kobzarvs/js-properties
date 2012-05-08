@@ -1,4 +1,6 @@
 #!/usr/local/bin/coffee
+# local storage version
+
 class this.Properties
     HOOK_FUNCTIONS = [ 'cookie', 'get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'  ]
 
