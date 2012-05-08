@@ -1,4 +1,9 @@
 #!/usr/local/bin/coffee
+
+# add dev code
+# add dev code
+# add dev code
+
 class this.Properties
     HOOK_FUNCTIONS = [ 'cookie', 'get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'  ]
 
