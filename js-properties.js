@@ -38,7 +38,7 @@
       description.get = function() {
         var result;
         if (desc.cookie != null) {
-          this._prop[pname] = $.cookie(pname);
+          this._prop[pname] = $.cookie(desc.cookie.context);
         }
         if (typeof desc.before_get === "function") {
           desc.before_get();
@@ -58,7 +58,7 @@
           desc.after_set(val);
         }
         if (desc.cookie != null) {
-          $.cookie(pname, val);
+          $.cookie(desc.cookie.context, val);
         }
         return val;
       };
@@ -107,7 +107,9 @@
             this.properties.call(p_store[k], v, cookies, context + '.' + k);
             if (!p_store[k]._prop) {
               if (cookies) {
-                _results.push(v.cookie = {});
+                _results.push(v.cookie = {
+                  context: context + '.' + k
+                });
               } else {
                 _results.push(p_store[k] = null);
               }

@@ -16,7 +16,7 @@ class this.Properties
         description = {}
         description.get = ->
             if desc.cookie?
-                @_prop[pname] = $.cookie pname
+                @_prop[pname] = $.cookie desc.cookie.context
             desc.before_get?()
             result = desc.get()
             desc.after_get?()
@@ -27,7 +27,7 @@ class this.Properties
             desc.set(val)
             desc.after_set?(val)
             if desc.cookie?
-                $.cookie pname, val
+                $.cookie desc.cookie.context, val
             val
 
         @_prop ?= {}
@@ -51,7 +51,7 @@ class this.Properties
                     @properties.call( p_store[ k ], v, cookies, context + '.' + k )
                     unless p_store[ k ]._prop
                         if cookies
-                            v.cookie = {}
+                            v.cookie = { context: context + '.' + k }
                         else
                             p_store[ k ] = null
 
