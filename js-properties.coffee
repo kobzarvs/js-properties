@@ -7,7 +7,7 @@ class this.Properties
         return null if pname in HOOK_FUNCTIONS
 
         unless desc.get? then desc.get = () -> @_prop[pname]
-        unless desc.set? then desc.set = (val) -> @_prop[pname] = val
+        unless desc.set? then desc.set = (val,old) -> @_prop[pname] = val
 
         for foo in HOOK_FUNCTIONS
             if desc[foo]? and typeof desc[foo] is 'function'
@@ -23,9 +23,11 @@ class this.Properties
             result
 
         description.set = (val) ->
-            desc.before_set?(val)
-            desc.set(val)
-            desc.after_set?(val)
+            old = @_prop[pname]
+            result = desc.before_set?(val,old)
+            if result or result is undefined
+                desc.set(val,old)
+                desc.after_set?(val,old)
             if desc.cookie?
                 $.cookie desc.cookie.context, val
             val
@@ -42,7 +44,6 @@ class this.Properties
         @properties plist, on
 
     properties: (plist, cookies = off, context = @name) ->
-        console.log 'context: ' + context
         for k, v of plist
             if typeof v is 'object'
                 p_store = @property k, v

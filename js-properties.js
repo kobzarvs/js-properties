@@ -24,7 +24,7 @@
         };
       }
       if (desc.set == null) {
-        desc.set = function(val) {
+        desc.set = function(val, old) {
           return this._prop[pname] = val;
         };
       }
@@ -50,12 +50,14 @@
         return result;
       };
       description.set = function(val) {
-        if (typeof desc.before_set === "function") {
-          desc.before_set(val);
-        }
-        desc.set(val);
-        if (typeof desc.after_set === "function") {
-          desc.after_set(val);
+        var old, result;
+        old = this._prop[pname];
+        result = typeof desc.before_set === "function" ? desc.before_set(val, old) : void 0;
+        if (result || result === void 0) {
+          desc.set(val, old);
+          if (typeof desc.after_set === "function") {
+            desc.after_set(val, old);
+          }
         }
         if (desc.cookie != null) {
           $.cookie(desc.cookie.context, val);
@@ -96,7 +98,6 @@
       if (context == null) {
         context = this.name;
       }
-      console.log('context: ' + context);
       _results = [];
       for (k in plist) {
         v = plist[k];
