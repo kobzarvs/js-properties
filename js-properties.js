@@ -11,7 +11,7 @@
 
     function Properties() {}
 
-    HOOK_FUNCTIONS = ['get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'];
+    HOOK_FUNCTIONS = ['cookie', 'get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'];
 
     Properties.prototype.property = function(pname, desc) {
       var description, foo, _i, _len;
@@ -30,13 +30,16 @@
       }
       for (_i = 0, _len = HOOK_FUNCTIONS.length; _i < _len; _i++) {
         foo = HOOK_FUNCTIONS[_i];
-        if (desc[foo] != null) {
+        if ((desc[foo] != null) && typeof desc[foo] === 'function') {
           desc[foo] = desc[foo].bind(this);
         }
       }
       description = {};
       description.get = function() {
         var result;
+        if (desc.cookie != null) {
+          this._prop[pname] = $.cookie(pname);
+        }
         if (typeof desc.before_get === "function") {
           desc.before_get();
         }
@@ -53,6 +56,9 @@
         desc.set(val);
         if (typeof desc.after_set === "function") {
           desc.after_set(val);
+        }
+        if (desc.cookie != null) {
+          $.cookie(pname, val);
         }
         return val;
       };
@@ -78,18 +84,34 @@
       })(Properties));
     };
 
-    Properties.prototype.properties = function(plist) {
-      var k, p_list, v, _results;
+    Properties.prototype.cookies = function(plist) {
+      return this.properties(plist, true);
+    };
+
+    Properties.prototype.properties = function(plist, cookies, context) {
+      var k, p_store, v, _results;
+      if (cookies == null) {
+        cookies = false;
+      }
+      if (context == null) {
+        context = this.name;
+      }
+      console.log('context: ' + context);
       _results = [];
       for (k in plist) {
         v = plist[k];
         if (typeof v === 'object') {
-          p_list = this.property(k, v);
-          if (p_list != null) {
-            p_list[k] = this.create_context();
-            this.properties.call(p_list[k], v);
-            if (!p_list[k]._prop) {
-              _results.push(p_list[k] = null);
+          p_store = this.property(k, v);
+          if (p_store != null) {
+            p_store[k] = this.create_context();
+            this.properties.call(p_store[k], v, cookies, context + '.' + k);
+            if (!p_store[k]._prop) {
+              if (cookies) {
+                v.cookie = {};
+                _results.push(p_store[k] = $.cookie(context));
+              } else {
+                _results.push(p_store[k] = null);
+              }
             } else {
               _results.push(void 0);
             }
