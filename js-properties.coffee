@@ -49,6 +49,7 @@ class this.Properties
     localStorage: (plist) ->
         @properties plist, 'localStorage'
 
+
     properties: (plist, cookies = off, context = @name) ->
         for k, v of plist
             if typeof v is 'object'
