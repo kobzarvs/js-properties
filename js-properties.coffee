@@ -63,5 +63,5 @@ class this.Properties
             json[name] = if typeof value is 'object'
                 @to_JSON.call( value )
             else
-                value
+                this[name]
         return json

@@ -134,7 +134,7 @@
       _ref = this._prop;
       for (name in _ref) {
         value = _ref[name];
-        json[name] = typeof value === 'object' ? this.to_JSON.call(value) : value;
+        json[name] = typeof value === 'object' ? this.to_JSON.call(value) : this[name];
       }
       return json;
     };
