@@ -46,10 +46,6 @@ class this.Properties
     cookies: (plist) ->
         @properties plist, 'cookies'
 
-    localStorage: (plist) ->
-        @properties plist, 'localStorage'
-
-
     properties: (plist, cookies = off, context = @name) ->
         for k, v of plist
             if typeof v is 'object'
