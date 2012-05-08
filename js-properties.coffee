@@ -1,6 +1,6 @@
 #!/usr/local/bin/coffee
 
-class exports.Properties
+class this.Properties
     HOOK_FUNCTIONS = [ 'get', 'set', 'before_get', 'after_get', 'before_set', 'after_set'  ]
 
     property: (pname, desc ) ->

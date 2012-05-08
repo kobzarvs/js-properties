@@ -23,10 +23,11 @@ console.log test.to_JSON()
 console.log test.root.to_JSON()
 ```
 __Output:__
-	
-	[Function: Properties]
-	before set
-	before get
-	1
-	{ root: { flag: 1 } }
-	{ flag: 1 }
+    
+    [Function: Properties]
+    before set
+    before get
+    1
+    { root: { flag: 1 } }
+    { flag: 1 }
+
