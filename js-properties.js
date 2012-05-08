@@ -99,7 +99,11 @@
     };
 
     Properties.prototype.cookies = function(plist) {
-      return this.properties(plist, true);
+      return this.properties(plist, 'cookies');
+    };
+
+    Properties.prototype.localStorage = function(plist) {
+      return this.properties(plist, 'localStorage');
     };
 
     Properties.prototype.properties = function(plist, cookies, context) {
@@ -159,4 +163,3 @@
   })();
 
 }).call(this);
-
