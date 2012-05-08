@@ -52,6 +52,7 @@ class this.Properties
                     unless p_store[ k ]._prop
                         if cookies
                             v.cookie = { context: context + '.' + k }
+                            p_store[ k ] = $.cookie v.cookie.context
                         else
                             p_store[ k ] = null
 
