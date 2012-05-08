@@ -1,6 +1,6 @@
 #!/usr/local/bin/coffee
 
-lib = require('./js-properties.js')
+lib = require('./js-properties.pack.js')
 
 # console.log lib.Properties
 
