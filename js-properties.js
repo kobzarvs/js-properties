@@ -102,10 +102,6 @@
       return this.properties(plist, 'cookies');
     };
 
-    Properties.prototype.localStorage = function(plist) {
-      return this.properties(plist, 'localStorage');
-    };
-
     Properties.prototype.properties = function(plist, cookies, context) {
       var k, p_store, v, _results;
       if (cookies == null) {
