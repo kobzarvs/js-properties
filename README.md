@@ -6,6 +6,24 @@ console.log lib.Properties
 
 class TestClass extends lib.Properties
   constructor: ->
+    @name = 'TestClass'
+
+    #
+    # create cookie tree in browser
+    #   TestClass.cookie_1.cookie_1_1 = ...
+    #   TestClass.cookie_1.cookie_1_2 = ...
+    #
+    @cookie
+      cookie_1:
+        cookie_1_1:
+          before_set: =>
+            ...
+        cookie_1_2:
+          before_get: =>
+            ...
+          after_set: =>
+            ...
+
     @properties
       root:
         flag:
