@@ -16,7 +16,7 @@ class this.Properties
         description = {}
         description.get = ->
             if desc.cookie?
-                @_prop[pname] = $.cookie desc.cookie.context
+                @_prop[pname] = JSON.parse( $.cookie desc.cookie.context )
             desc.before_get?()
             result = desc.get()
             desc.after_get?()
@@ -29,7 +29,7 @@ class this.Properties
                 desc.set(val,old)
                 desc.after_set?(val,old)
             if desc.cookie?
-                $.cookie desc.cookie.context, val
+                $.cookie desc.cookie.context, JSON.stringify( val ), {expires: 10000, raw:true}
             val
 
         @_prop ?= {}

@@ -38,7 +38,7 @@
       description.get = function() {
         var result;
         if (desc.cookie != null) {
-          this._prop[pname] = $.cookie(desc.cookie.context);
+          this._prop[pname] = JSON.parse($.cookie(desc.cookie.context));
         }
         if (typeof desc.before_get === "function") {
           desc.before_get();
@@ -60,7 +60,10 @@
           }
         }
         if (desc.cookie != null) {
-          $.cookie(desc.cookie.context, val);
+          $.cookie(desc.cookie.context, JSON.stringify(val), {
+            expires: 10000,
+            raw: true
+          });
         }
         return val;
       };
