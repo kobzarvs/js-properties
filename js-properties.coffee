@@ -15,11 +15,14 @@ class this.Properties
 
         description = {}
         description.get = ->
-            if desc.cookie?
-                @_prop[pname] = JSON.parse( $.cookie desc.cookie.context )
+            if @_prop is undefined and desc.cookie?
+                cookie_value = JSON.parse( $.cookie desc.cookie.context )
+                if cookie_value? then @_prop[pname] = cookie_value
             desc.before_get?()
             result = desc.get()
             desc.after_get?()
+            if desc.cookie?
+                $.cookie desc.cookie.context, JSON.stringify( result ), {expires: 10000, raw:true}
             result
 
         description.set = (val) ->
@@ -33,7 +36,7 @@ class this.Properties
             val
 
         @_prop ?= {}
-        @_prop[pname] = null
+        @_prop[pname] = undefined
         Object.defineProperty this, pname, description
         @_prop
 
@@ -41,7 +44,10 @@ class this.Properties
         new class extends Properties
 
     cookies: (plist) ->
-        @properties plist, on
+        @properties plist, 'cookies'
+
+    localStorage: (plist) ->
+        @properties plist, 'localStorage'
 
     properties: (plist, cookies = off, context = @name) ->
         for k, v of plist
@@ -53,7 +59,7 @@ class this.Properties
                     unless p_store[ k ]._prop
                         if cookies
                             v.cookie = { context: context + '.' + k }
-                            p_store[ k ] = $.cookie v.cookie.context
+                            p_store[ k ] = JSON.parse( $.cookie v.cookie.context )
                         else
                             p_store[ k ] = null
 

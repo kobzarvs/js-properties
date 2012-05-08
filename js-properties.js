@@ -36,9 +36,12 @@
       }
       description = {};
       description.get = function() {
-        var result;
-        if (desc.cookie != null) {
-          this._prop[pname] = JSON.parse($.cookie(desc.cookie.context));
+        var cookie_value, result;
+        if (this._prop === void 0 && (desc.cookie != null)) {
+          cookie_value = JSON.parse($.cookie(desc.cookie.context));
+          if (cookie_value != null) {
+            this._prop[pname] = cookie_value;
+          }
         }
         if (typeof desc.before_get === "function") {
           desc.before_get();
@@ -46,6 +49,12 @@
         result = desc.get();
         if (typeof desc.after_get === "function") {
           desc.after_get();
+        }
+        if (desc.cookie != null) {
+          $.cookie(desc.cookie.context, JSON.stringify(result), {
+            expires: 10000,
+            raw: true
+          });
         }
         return result;
       };
@@ -70,7 +79,7 @@
       if (this._prop == null) {
         this._prop = {};
       }
-      this._prop[pname] = null;
+      this._prop[pname] = void 0;
       Object.defineProperty(this, pname, description);
       return this._prop;
     };
@@ -114,7 +123,7 @@
                 v.cookie = {
                   context: context + '.' + k
                 };
-                _results.push(p_store[k] = $.cookie(v.cookie.context));
+                _results.push(p_store[k] = JSON.parse($.cookie(v.cookie.context)));
               } else {
                 _results.push(p_store[k] = null);
               }
@@ -150,3 +159,4 @@
   })();
 
 }).call(this);
+
