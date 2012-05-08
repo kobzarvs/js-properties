@@ -107,8 +107,7 @@
             this.properties.call(p_store[k], v, cookies, context + '.' + k);
             if (!p_store[k]._prop) {
               if (cookies) {
-                v.cookie = {};
-                _results.push(p_store[k] = $.cookie(context));
+                _results.push(v.cookie = {});
               } else {
                 _results.push(p_store[k] = null);
               }

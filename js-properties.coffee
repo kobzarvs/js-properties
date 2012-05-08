@@ -52,7 +52,6 @@ class this.Properties
                     unless p_store[ k ]._prop
                         if cookies
                             v.cookie = {}
-                            p_store[ k ] = $.cookie context
                         else
                             p_store[ k ] = null
 
