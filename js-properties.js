@@ -134,12 +134,6 @@
       return this.properties(plist, 'cookie');
     };
 
-<<<<<<< HEAD
-    Properties.prototype.properties = function(plist, cookies, context) {
-      var k, p_store, v, _results;
-      if (cookies == null) {
-        cookies = false;
-=======
     Properties.prototype.localStorage = function(storage, plist) {
       if (!(typeof storage === 'string' && typeof plist === 'object')) {
         return null;
@@ -151,7 +145,6 @@
       var full_name, k, p_store, tmp, v, _results;
       if (storage_type == null) {
         storage_type = false;
->>>>>>> dev
       }
       if (context == null) {
         context = this.name;

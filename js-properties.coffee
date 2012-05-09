@@ -76,6 +76,7 @@ class this.Properties
     cookies: (plist) ->
         @properties plist, 'cookie'
 
+
     localStorage: (storage, plist) ->
         return null unless typeof storage is 'string' and typeof plist is 'object'
         @properties plist, 'localStorage', storage
