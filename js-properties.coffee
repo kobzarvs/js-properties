@@ -7,6 +7,10 @@ pop = (o) ->
         return result
     return null
 
+push = (prop,name,val) ->
+    prop[name].push(val)
+    prop[name] = prop[name]
+
 first = (o) -> for i of o then return [i, o[i]]
 
 
@@ -24,6 +28,7 @@ class this.Properties
     property: (pname, desc ) ->
         return null if pname in TRIGGERS
 
+        @_desc = desc
         unless desc.get? then desc.get = () -> @_prop[pname]
         unless desc.set? then desc.set = (val,old) -> @_prop[pname] = val
 
